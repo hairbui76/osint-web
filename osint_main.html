@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Document</title>
+		<style>
+			body {
+				width: 100%;
+				margin: 0;
+			}
+
+			#menu {
+				width: 100%;
+				border-bottom: 1px solid #ebebeb;
+				display: flex;
+				position: relative;
+			}
+
+			#social-scan,
+			#documents {
+				cursor: pointer;
+				height: 40px;
+				display: flex;
+				justify-content: center;
+				align-items: center;
+			}
+
+			p {
+				font-size: 14px;
+				font-family: Google Sans, arial, sans-serif;
+				color: #5f6368;
+			}
+
+			#line {
+				position: absolute;
+				height: 15%;
+				background-color: #1a73e8;
+				bottom: 0;
+				border-radius: 25px;
+				transition: all 0.2s ease;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="menu">
+			<div id="social-scan" class="option">
+				<p>Social Scan</p>
+			</div>
+			<div id="documents" class="option">
+				<p>Documents</p>
+			</div>
+			<div id="line"></div>
+		</div>
+		<script>
+			const options = document.getElementsByClassName("option");
+			const averageWidth = 100 / options.length;
+			const line = document.getElementById("line");
+			const socialScan = document.getElementById("social-scan");
+			const documentsScan = document.getElementById("documents");
+
+			for (let x of options) x.style.width = averageWidth + "%";
+
+			//configure script
+			let socialScanScript = document.createElement("script");
+			socialScanScript.src =
+				"https://cse.google.com/cse.js?cx=526e48a5594240cd2";
+			socialScanScript.async = true;
+			let documentsScript = document.createElement("script");
+			documentsScript.src =
+				"https://cse.google.com/cse.js?cx=2df639e86e71ebefb";
+			documentsScript.async = true;
+
+			let containSocial = document.createElement("div");
+			containSocial.id = "contain-social";
+			let containDocuments = document.createElement("div");
+			containDocuments.id = "contain-document";
+
+			let searchBar = document.createElement("div");
+			searchBar.id = "search-bar";
+			searchBar.className = "gcse-search";
+			let searchBar2 = searchBar.cloneNode(true);
+
+			searchBar.appendChild(socialScanScript);
+			searchBar2.appendChild(documentsScript);
+
+			containSocial.appendChild(searchBar);
+			containDocuments.appendChild(searchBar2);
+
+			let check = false;
+
+			//add script
+			let insertSocial = () => {
+				containDocuments.classList.remove("checked");
+				if (check == false) {
+					document.body.appendChild(containSocial);
+					containSocial.appendChild(socialScanScript);
+					containSocial.classList.toggle("checked");
+					check = true;
+					line.style.left = socialScan.offsetLeft + "px";
+					line.style.width = socialScan.offsetWidth + "px";
+				} else {
+					if (containSocial.classList.contains("checked")) return;
+					else {
+						containDocuments.remove();
+						document.body.appendChild(containSocial);
+						containSocial.appendChild(socialScanScript);
+						containSocial.classList.toggle("checked");
+						line.style.left = socialScan.offsetLeft + "px";
+						line.style.width = socialScan.offsetWidth + "px";
+					}
+				}
+			};
+
+			let insertDocuments = () => {
+				containSocial.classList.remove("checked");
+				if (check == false) {
+					document.body.appendChild(containDocuments);
+					containDocuments.appendChild(documentsScript);
+					containDocuments.classList.toggle("checked");
+					check = true;
+					line.style.left = documentsScan.offsetLeft + "px";
+					line.style.width = documentsScan.offsetWidth + "px";
+				} else {
+					if (containDocuments.classList.contains("checked")) return;
+					else {
+						containSocial.remove();
+						document.body.appendChild(containDocuments);
+						containDocuments.appendChild(documentsScript);
+						containDocuments.classList.toggle("checked");
+						line.style.left = documentsScan.offsetLeft + "px";
+						line.style.width = documentsScan.offsetWidth + "px";
+					}
+				}
+			};
+
+			document
+				.getElementById("social-scan")
+				.addEventListener("click", insertSocial);
+			document
+				.getElementById("documents")
+				.addEventListener("click", insertDocuments);
+		</script>
+	</body>
+</html>
