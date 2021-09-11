@@ -3,6 +3,10 @@ const $$ = document.querySelectorAll.bind(document);
 
 const searchList = [
 	{
+		name: "Google",
+		api: "https://cse.google.com/cse.js?cx=d1d89c6f08b624e4e",
+	},
+	{
 		name: "Social Scan",
 		api: "https://cse.google.com/cse.js?cx=526e48a5594240cd2",
 	},
